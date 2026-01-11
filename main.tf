@@ -13,3 +13,16 @@ data "aws_availability_zones" "available" {
     values = ["opt-in-not-required"]
   }
 }
+
+resource "aws_vpc" "example" {
+  cidr_block = var.vpc_cidr_block
+
+  tags = {
+    Project = var.project_tag
+  }
+}
+
+  tags = {
+    Project = var.project_tag
+  }
+}
