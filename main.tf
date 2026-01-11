@@ -204,43 +204,6 @@ resource "aws_security_group" "private" {
 
 # Load balancer
 
-resource "aws_lb" "vpc" {
-  internal           = false
-  load_balancer_type = "application"
-  security_groups    = [aws_security_group.public.id]
-  subnets            = aws_subnet.public.*.id
-
-  tags = {
-    Project = var.project_tag
-  }
-}
-
-resource "aws_lb_listener" "http" {
-  load_balancer_arn = aws_lb.vpc.arn
-  port              = "80"
-  protocol          = "HTTP"
-
-  default_action {
-    type             = "forward"
-    target_group_arn = aws_lb_target_group.http.arn
-  }
-
-}
-
-## HTTPS support requires an SSL certificate, which is out of scope for this
-## example.
-#
-# resource "aws_lb_listener" "https" {
-#   load_balancer_arn = aws_lb.vpc.arn
-#   port              = "443"
-#   protocol          = "HTTPS"
-#
-#   default_action {
-#     type             = "forward"
-#     target_group_arn = aws_lb_target_group.https.arn
-#   }
-# }
-
 resource "aws_lb_target_group" "http" {
   port     = 80
   protocol = "HTTP"
